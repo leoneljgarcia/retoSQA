@@ -23,8 +23,8 @@ public class AgregarQuitarProduct {
     int maxQuantity = 0;
 
     public boolean procesarPrueba() throws IOException, InterruptedException {
-        System.setProperty(Constantes.DRIVER_PROPERTY, Constantes.DRIVER_PATH);
-        File archivo = new File(Constantes.SETTINGS_PATH);
+        System.setProperty(Constantes.DRIVER_PROPERTY, Constantes.obtenerLineaPath(Constantes.DRIVER_PATH));
+        File archivo = new File(Constantes.obtenerLineaPath(Constantes.SETTINGS_PATH));
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(archivo);
         maxQuantity = jsonNode.get("maxQuantity").asInt();

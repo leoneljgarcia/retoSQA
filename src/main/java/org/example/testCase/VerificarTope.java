@@ -23,6 +23,31 @@ public class VerificarTope {
     int contProductos = 0;
     int maxQuantity = 0;
 
+    public boolean testLimitProducts() throws BusinessException, InterruptedException, IOException {
+        driver.get(Constantes.URL_BASE);
+        driver.manage().window().maximize();
+        File archivo = new File(Constantes.obtenerLineaPath(Constantes.SETTINGS_PATH));
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(archivo);
+        maxQuantity = jsonNode.get("maxQuantity").asInt();
+        products = driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM));
+        int countProductsPage =  driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM)).size();
+        for(int i = 0; i < countProductsPage; i++){
+            addToCart(products.get(i), i, Constantes.URL_BASE);
+        }
+
+        if(countProductsPage <= maxQuantity){
+            driver.get(Constantes.URL_PAGE_2);
+            int countProductPage2 = driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM)).size();
+            Thread.sleep(2000);
+            products = driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM));
+            for (int i = 0; i < countProductPage2; i++){
+                addToCart(products.get(i), i, Constantes.URL_PAGE_2);
+            }
+        }
+        return true;
+    }
+
     private void addToCart(WebElement producto, int index, String urlBase) throws InterruptedException, BusinessException {
         WebElement button = producto.findElements(By.className(Constantes.CLASS_ADD_TO_CART)).getFirst();
         Thread.sleep(Constantes.WAIT_TIME_MEDIUM);
@@ -89,28 +114,4 @@ public class VerificarTope {
         driver.switchTo().alert().accept();
     }
 
-    public boolean testLimitProducts() throws BusinessException, InterruptedException, IOException {
-        driver.get(Constantes.URL_BASE);
-        driver.manage().window().maximize();
-        File archivo = new File(Constantes.SETTINGS_PATH);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(archivo);
-        maxQuantity = jsonNode.get("maxQuantity").asInt();
-        products = driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM));
-        int countProductsPage =  driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM)).size();
-        for(int i = 0; i < countProductsPage; i++){
-            addToCart(products.get(i), i, Constantes.URL_BASE);
-        }
-
-        if(countProductsPage <= maxQuantity){
-            driver.get(Constantes.URL_PAGE_2);
-            int countProductPage2 = driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM)).size();
-            Thread.sleep(2000);
-            products = driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM));
-            for (int i = 0; i < countProductPage2; i++){
-                addToCart(products.get(i), i, Constantes.URL_PAGE_2);
-            }
-        }
-        return true;
-    }
 }

@@ -1,0 +1,2 @@
+C:\Users\Victus\Documents\pruebas SQA\msedgedriver.exe
+C:/Users/Victus/Documents/pruebas SQA/expressCart/config/settings.json

@@ -1,5 +1,10 @@
 package org.example.util;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Constantes {
     // URLs
     public static final String URL_BASE = "http://127.0.0.1:1111/";
@@ -7,7 +12,7 @@ public class Constantes {
 
     // Configuración del WebDriver
     public static final String DRIVER_PROPERTY = "webdriver.chrome.driver";
-    public static final String DRIVER_PATH = "C:\\Users\\Victus\\Documents\\pruebas SQA\\msedgedriver.exe";
+    public static final int DRIVER_PATH = 0;
 
     // Clases y IDs del HTML
     public static final String CLASS_PRODUCT_ITEM = "product-item";
@@ -37,7 +42,13 @@ public class Constantes {
 
     // Otros
     public static final double ENVIO = 10.00;
-    public static final String SETTINGS_PATH = "C:/Users/Victus/Documents/pruebas SQA/expressCart/config/settings.json";
+    public static final int SETTINGS_PATH = 1;
     private Constantes() {
+    }
+
+    public static String obtenerLineaPath(int index) throws IOException {
+        Path path = Paths.get("paths.txt");  // Ruta del archivo
+        String linea = Files.readAllLines(path).get(index);
+        return linea;
     }
 }
