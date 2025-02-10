@@ -1,13 +1,13 @@
 trigger:
-- main  # Ejecuta el pipeline en cada push a main
+- master  # Ejecuta el pipeline en cada push a main
 
 pool:
   vmImage: 'ubuntu-latest'  # Usa una máquina virtual con Ubuntu
 
 steps:
-- task: UseJavaVersion@1
+- task: JavaToolInstaller@0
   inputs:
-    versionSpec: '21' 
+    version: '21'  # Especifica la versión de Java que necesitas
     jdkArchitecture: 'x64'
 
 - script: |
