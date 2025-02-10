@@ -2,7 +2,7 @@ trigger:
 - master  # Ejecuta el pipeline en cada push a main
 
 pool:
-  vmImage: 'ubuntu-latest'  # Usa una máquina virtual con Ubuntu
+  name: 'Default'
 
 steps:
 - task: JavaToolInstaller@0
