@@ -4,13 +4,23 @@ trigger:
 pool:
   name: 'Default'
 
-steps:
-- task: JavaToolInstaller@0
-  inputs:
-    version: '21'  # Especifica la versión de Java que necesitas
-    jdkArchitecture: 'x64'
+jobs:
+- job: TestJob1
+  displayName: 'Ejecutar Pruebas - Grupo 1'
+  steps:
+    - task: Maven@3
+      displayName: 'Ejecutar pruebas con Maven - Grupo 1'
+      inputs:
+        mavenPomFile: 'pom.xml'
+        goals: 'test'
+        options: '-Dtest=TestSuite1'  # Especifica el grupo de pruebas
+        publishJUnitResults: false
+        testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+      continueOnError: false  # Detiene la ejecución si hay errores
 
-- script: |
-    mvn clean install
-  displayName: 'Build and Run Tests'
-
+    - task: PublishTestResults@2
+      displayName: 'Publicar resultados - Grupo 1'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+        failTaskOnFailedTests: true
