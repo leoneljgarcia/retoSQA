@@ -1,0 +1,16 @@
+trigger:
+- main  # Ejecuta el pipeline en cada push a main
+
+pool:
+  vmImage: 'ubuntu-latest'  # Usa una máquina virtual con Ubuntu
+
+steps:
+- task: UseJavaVersion@1
+  inputs:
+    versionSpec: '21' 
+    jdkArchitecture: 'x64'
+
+- script: |
+    mvn clean install
+  displayName: 'Build and Run Tests'
+
