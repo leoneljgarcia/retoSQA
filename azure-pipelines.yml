@@ -1,0 +1,26 @@
+trigger:
+- master 
+
+pool:
+  name: 'Default'
+
+jobs:
+- job: TestJob1
+  displayName: 'Ejecutar Pruebas - Grupo 1'
+  steps:
+    - task: Maven@3
+      displayName: 'Ejecutar pruebas con Maven - Grupo 1'
+      inputs:
+        mavenPomFile: 'pom.xml'
+        goals: 'test'
+        options: '-Dtest=TestSuite1'  # Especifica el grupo de pruebas
+        publishJUnitResults: false
+        testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+      continueOnError: false  # Detiene la ejecución si hay errores
+
+    - task: PublishTestResults@2
+      displayName: 'Publicar resultados - Grupo 1'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+        failTaskOnFailedTests: true
