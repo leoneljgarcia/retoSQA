@@ -48,6 +48,7 @@ public class AgregarQuitarProduct {
     public void addToCart(WebElement producto, int index, String urlBase) throws InterruptedException, BusinessException {
         WebElement button = producto.findElements(By.className(Constantes.CLASS_ADD_TO_CART)).getFirst();
         Thread.sleep(Constantes.WAIT_TIME_MEDIUM);
+        //lanza una excepción si ya se superó el número de productos máximo configurado
         if (contProductos + 1 > maxQuantity) {
             mostrarMensajeError(Constantes.ERROR_MAX_PRODUCTS);
             throw new BusinessException(Constantes.ERROR_MAX_PRODUCTS);
@@ -64,10 +65,12 @@ public class AgregarQuitarProduct {
             products = driver.findElements(By.className(Constantes.CLASS_PRODUCT_ITEM));
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
         }
+        //lanza una excepción si al agregar el producto el precio total no equivale a lo esperado
         if (!validarSumaTotal(precioProductoIndice(index))) {
             mostrarMensajeError(Constantes.ERROR_CART_TOTAL);
             throw new BusinessException(Constantes.ERROR_CART_TOTAL);
         }
+        //lanza una excepción si al agregar el producto el total de productos del carrito no equivale a lo esperado
         if (cartCount() != contProductos + 1) {
             mostrarMensajeError(Constantes.ERROR_ADD_PRODUCT);
             throw new BusinessException(Constantes.ERROR_ADD_PRODUCT);
@@ -108,10 +111,12 @@ public class AgregarQuitarProduct {
             buttonDelete.click();
             Thread.sleep(Constantes.WAIT_TIME_SHORT);
             cartProducts = driver.findElements(By.className(Constantes.CLASS_CART_PRODUCT));
+            //lanza una excepción si al eliminar el producto el total de productos del carrito no equivale a lo esperado
             if (!(numProducts - 1 == cartProducts.size())) {
                 mostrarMensajeError(Constantes.ERROR_DELETE_PRODUCT);
                 throw new BusinessException(Constantes.ERROR_DELETE_PRODUCT);
             }
+            //lanza una excepción si al eliminar el producto el precio total no equivale a lo esperado
             if (numProducts - 1 > 0 && !validarRestaTotal(price)) {
                 mostrarMensajeError(Constantes.ERROR_CART_REDUCED_TOTAL);
                 throw new BusinessException(Constantes.ERROR_CART_REDUCED_TOTAL);
