@@ -80,3 +80,9 @@ ahí encontraremos las validaciones que se hacen y que nos pide el documento del
 
 Adicionalmente a esto podemos modificar el parámetro maxQuantity = -1 en nuestro settings.json  
 para poder observar el mensaje de error interno (500).  
+
+## En un entorno profesional:  
+  Para gestionar los errores en un entorno de prueba profesional lo haremos en una plataforma  
+  como Azure que nos permite la integración contínua y el despliegue contínuo, de esta forma  
+  mediante los pipelines podemos detectar cuando ocurra un cambio en nuestro código fuente e  
+  inmediatamente ejecutar las pruebas y obtener reportes en caso de errores para su debida corrección.
